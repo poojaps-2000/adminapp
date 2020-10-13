@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "8244665862",
+    "firebase_url": "https://trackerapp-324e3.firebaseio.com",
+    "project_id": "trackerapp-324e3",
+    "storage_bucket": "trackerapp-324e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8244665862:android:1a9c70c70f07d7e63aed87",
+        "android_client_info": {
+          "package_name": "com.firstapp.trackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "8244665862-282915pg9relrdbt9uujiviej19r9cgp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.firstapp.trackerapp",
+            "certificate_hash": "8ed05802352331b21705845f034b38821c03a28b"
+          }
+        },
+        {
+          "client_id": "8244665862-bk53bsut122q7grcn2kcmvbs4jisc452.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkb3HJyugYIT_s1OR80jN3nuNlm-F7x6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "8244665862-bk53bsut122q7grcn2kcmvbs4jisc452.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

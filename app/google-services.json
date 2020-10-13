@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "217904162831",
+    "firebase_url": "https://firstfirebaseproj-53298.firebaseio.com",
+    "project_id": "firstfirebaseproj-53298",
+    "storage_bucket": "firstfirebaseproj-53298.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:217904162831:android:8a16987708f1893a5ddb7a",
+        "android_client_info": {
+          "package_name": "com.firstapp.trackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "217904162831-7b0um5viqj3h1qratv66q9rd4lllrt15.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_SzDuJlVtdWQZPquttk-2Q9fJDxUkMfM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "217904162831-7b0um5viqj3h1qratv66q9rd4lllrt15.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
