@@ -31,6 +31,7 @@ import java.util.Map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+
     LocationManager locationManager;
 
     @Override
@@ -41,6 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
 
@@ -54,28 +56,67 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+        //FOR NETWORK PROVIDER
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
-                public void onLocationChanged(@NonNull Location location) {
+                public void onLocationChanged(Location location) {
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-
+                        //WRITING DATA TO DATABASE
                     LocationHelper helper = new LocationHelper(
                             location.getLongitude(),location.getLatitude()
+
                     );
+
                     FirebaseDatabase.getInstance().getReference("Current Location")
                             .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(MapsActivity.this,"Location saved",Toast.LENGTH_SHORT);
+                                Toast.makeText(MapsActivity.this,"Location saved",Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                Toast.makeText(MapsActivity.this,"Location not saved",Toast.LENGTH_SHORT);
+                                Toast.makeText(MapsActivity.this,"Location not saved",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+                    //....endof WRITING to DATABASE
+
+                    LatLng latLng = new LatLng(latitude,longitude);
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude,1);
+                        String str = addressList.get(0).getLocality()+",";
+                        str+=addressList.get(0).getCountryName();
+                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10.2f));   //move cam on getting coordinates
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onStatusChanged(String provider,int status,Bundle extras){
+
+                }
+                @Override
+                public void onProviderEnabled(String provider){
+
+                }
+                @Override
+                public void onProviderDisabled(String provider){
+
+                }
+            });
+        }
+        //FOR GPS PROVIDER
+        else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
                     LatLng latLng = new LatLng(latitude,longitude);
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
@@ -88,26 +129,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         e.printStackTrace();
                     }
                 }
-            });
-        }
-        else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
                 @Override
-                public void onLocationChanged(@NonNull Location location) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    LatLng latLng = new LatLng(latitude,longitude);
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        List<Address> addressList = geocoder.getFromLocation(latitude, longitude,1);
-                        String str = addressList.get(0).getLocality()+",";
-                        str+=addressList.get(0).getCountryName();
-                        mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10.2f));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                public void onStatusChanged(String provider,int status,Bundle extras){
+
+                }
+                @Override
+                public void onProviderEnabled(String provider){
+
+                }
+                @Override
+                public void onProviderDisabled(String provider){
+
                 }
             });
         }
