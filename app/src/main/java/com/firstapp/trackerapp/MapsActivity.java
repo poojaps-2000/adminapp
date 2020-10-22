@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
@@ -32,7 +35,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
 
+//    EditText editTextBusId;
+
     LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Intent intent = getIntent();
+        final String busName = intent.getStringExtra(HomeActivity.busId);
+
+
 
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -68,29 +78,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             location.getLongitude(),location.getLatitude()
 
                     );
-
-                    FirebaseDatabase.getInstance().getReference("Current Location")
+                    String ID = busName;
+                    ID = busName.substring(5);
+                    ID = ID.replaceAll("s", "$0 ");
+                    FirebaseDatabase.getInstance().getReference(ID.toUpperCase())
                             .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(MapsActivity.this,"Location saved",Toast.LENGTH_SHORT).show();
-                            }
-                            else{
-                                Toast.makeText(MapsActivity.this,"Location not saved",Toast.LENGTH_SHORT).show();
-                            }
+//                            if(task.isSuccessful()){
+//                                Toast.makeText(MapsActivity.this,"Location saved",Toast.LENGTH_SHORT).show();
+//                            }
+//                            else{
+//                                Toast.makeText(MapsActivity.this,"Location not saved",Toast.LENGTH_SHORT).show();
+//                            }
                         }
                     });
-                    //....endof WRITING to DATABASE
 
                     LatLng latLng = new LatLng(latitude,longitude);
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude,1);
-                        String str = addressList.get(0).getLocality()+",";
-                        str+=addressList.get(0).getCountryName();
+                        String str = "Bus@"+ addressList.get(0).getLocality();
+//                        str+=addressList.get(0).getCountryName();
+
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10.2f));   //move cam on getting coordinates
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,18f));   //move cam on getting coordinates
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
