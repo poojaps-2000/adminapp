@@ -106,6 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20.0f));   //move cam on getting coordinates
                     } catch (IOException e) {
                         e.printStackTrace();
+
                     }
                 }
                 @Override
@@ -139,4 +140,3 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 }
-
