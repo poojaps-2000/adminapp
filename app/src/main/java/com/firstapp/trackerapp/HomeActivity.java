@@ -42,7 +42,6 @@ public class HomeActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         callMap();
@@ -79,9 +78,11 @@ public class HomeActivity extends AppCompatActivity {
 
         if (email.isEmpty()) {
             Toast.makeText(HomeActivity.this, "ID required", Toast.LENGTH_LONG).show();
-        } else if (password.isEmpty()) {
+        }
+        else if (password.isEmpty()) {
             Toast.makeText(HomeActivity.this, "Password is empty", Toast.LENGTH_LONG).show();
-        } else {
+        }
+        else {
             email_check = email + "@gmail.com";
             mAuth.signInWithEmailAndPassword(email_check, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
@@ -90,7 +91,8 @@ public class HomeActivity extends AppCompatActivity {
                         Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
                         intent.putExtra(busId, email);
                         startActivity(intent);
-                    } else {
+                    }
+                    else {
                         Toast.makeText(HomeActivity.this, "Check your ID and Password", Toast.LENGTH_LONG).show();
                     }
                 }

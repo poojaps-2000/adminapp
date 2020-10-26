@@ -9,19 +9,20 @@
 
     <TextView
         android:id="@+id/login"
-        android:layout_width="117dp"
-        android:layout_height="38dp"
+        android:layout_width="155dp"
+        android:layout_height="41dp"
         android:layout_marginTop="220dp"
+        android:fontFamily="@font/proximanovablack"
         android:text="LOGIN"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="30sp"
+        android:textColor="@color/brown"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/busId"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.604" />
 
     <EditText
         android:id="@+id/busId"
@@ -42,7 +43,7 @@
         android:layout_height="55dp"
         android:layout_marginBottom="152dp"
         android:background="@drawable/button"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/green"
         android:text="Start Sharing"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,6 +76,81 @@
         app:lottie_fileName="movingbus.json"
         app:lottie_loop="true"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="-65dp" />
+        tools:layout_editor_absoluteY="-16dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="215dp"
+        android:layout_height="148dp"
+        android:layout_marginEnd="224dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/sctlogo" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="230dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.911"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/line" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="81dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="202dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/about" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="189dp"
+        android:layout_height="132dp"
+
+        android:layout_marginEnd="236dp"
+        android:layout_marginBottom="192dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="37dp"
+        app:layout_constraintBottom_toBottomOf="@+id/animationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/sclgbg" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="123dp"
+        android:layout_height="65dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="64dp"
+
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:srcCompat="@drawable/logotwo" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="52dp"
+        android:fontFamily="@font/proximanovablack"
+        android:text="ADMIN"
+        android:textColor="@color/lightbrown"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
