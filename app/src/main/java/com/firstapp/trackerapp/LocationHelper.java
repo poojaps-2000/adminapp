@@ -3,16 +3,11 @@ package com.firstapp.trackerapp;
 public class LocationHelper {
     private double Longitude;
     private double Latitude;
-    private  String busId;
 
-    public LocationHelper(double longitude, double latitude,String busId,String password) {
-        Longitude = longitude;
-        Latitude = latitude;
-
-    }
 
         public LocationHelper(double longitude, double latitude) {
-        Longitude = longitude;
+//            Seats = seats;
+            Longitude = longitude;
         Latitude = latitude;
     }
 

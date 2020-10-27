@@ -13,6 +13,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,18 +26,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.firstapp.trackerapp.R.id.seats;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-
-//    EditText editTextBusId;
-
     LocationManager locationManager;
 
 
@@ -52,10 +55,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Intent intent = getIntent();
+        //get busId from login screen
         final String busName = intent.getStringExtra(HomeActivity.busId);
 
-
-
+        final CheckBox cBox = (CheckBox) findViewById(seats);
+//        final Boolean check_seats = cBox.isChecked();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -67,46 +71,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        //FOR NETWORK PROVIDER
+        //if app has location access permission then
+
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     double latitude = location.getLatitude();
                     double longitude = location.getLongitude();
-                        //WRITING DATA TO DATABASE
-                    LocationHelper helper = new LocationHelper(
-                            location.getLongitude(),location.getLatitude()
 
-                    );
+                    LocationHelper helper = new LocationHelper(location.getLongitude(),location.getLatitude());
+
+                    //get id from userid
                     String ID = busName;
                     ID = busName.substring(5);
                     ID = ID.replaceAll("s", "$0 ");
-                    FirebaseDatabase.getInstance().getReference(ID.toUpperCase())
-                            .setValue(helper).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-//                            if(task.isSuccessful()){
-//                                Toast.makeText(MapsActivity.this,"Location saved",Toast.LENGTH_SHORT).show();
-//                            }
-//                            else{
-//                                Toast.makeText(MapsActivity.this,"Location not saved",Toast.LENGTH_SHORT).show();
-//                            }
-                        }
-                    });
 
+                    //pass coordinates to database
+                    FirebaseDatabase.getInstance().getReference(ID.toUpperCase()).setValue(helper);
+                    //get checkbox value
+                    final CheckBox cBox = (CheckBox) findViewById(seats);
+                    //pass checkbox value to db(T/F)
+                    HashMap<String, Object> result = new HashMap<>();
+                    result.put("seats",cBox.isChecked());
+                    FirebaseDatabase.getInstance().getReference(ID.toUpperCase()).updateChildren(result);
+
+//                    DatabaseReference ref=FirebaseDatabase.getInstance().getReference(ID.toUpperCase());
+//                    Map<String, Object> updates = new HashMap<String,Object>();
+//                    updates.put("seats", cBox.isChecked());
+//                    ref.updateChildren(updates);
+
+                    //INSIDE THE MAP
+                    //get  coordinates
                     LatLng latLng = new LatLng(latitude,longitude);
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude,1);
+                        //display locality
                         String str = addressList.get(0).getLocality();
-//                        str+=addressList.get(0).getCountryName();
-
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,20.0f));   //move cam on getting coordinates
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         e.printStackTrace();
-
                     }
                 }
                 @Override
