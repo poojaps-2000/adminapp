@@ -44,7 +44,10 @@
         android:layout_marginBottom="152dp"
         android:background="@drawable/button"
         android:backgroundTint="@color/green"
-        android:text="Start Sharing"
+        android:text="Start
+        Sharing"
+        android:textSize="18sp"
+        android:fontFamily="@font/proximanovablack"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
