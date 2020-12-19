@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
-    Button button;
+    Button button,abt;
     EditText editTextBusId, editTextPassword;
     public static final String busId = "com.firstapp.trackerapp.busId";
 
@@ -36,7 +36,16 @@ public class HomeActivity extends AppCompatActivity {
 
         editTextPassword = findViewById(R.id.password);
         button = findViewById(R.id.button);
+        abt = findViewById(R.id.abtus);
         mAuth = FirebaseAuth.getInstance();
+
+        abt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, AboutPage.class);
+                startActivity(intent);
+            }
+        });
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -77,10 +86,10 @@ public class HomeActivity extends AppCompatActivity {
         String email_check = "";
 
         if (email.isEmpty()) {
-            Toast.makeText(HomeActivity.this, "ID required", Toast.LENGTH_LONG).show();
+            Toast.makeText(HomeActivity.this, "ID required", Toast.LENGTH_SHORT).show();
         }
         else if (password.isEmpty()) {
-            Toast.makeText(HomeActivity.this, "Password is empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(HomeActivity.this, "Password is empty", Toast.LENGTH_SHORT).show();
         }
         else {
             email_check = email + "@gmail.com";
@@ -93,7 +102,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
-                        Toast.makeText(HomeActivity.this, "Check your ID and Password", Toast.LENGTH_LONG).show();
+                        Toast.makeText(HomeActivity.this, "Check your ID and Password", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fontFamily="@font/proximanovablack"
-            android:text="SEAT FULL"
+            android:text="SEATS FULL"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -30,8 +30,6 @@
         android:layout_width="match_parent"
         android:layout_height="808dp"
         tools:context=".MapsActivity" />
-
-
 
 
 </LinearLayout>
