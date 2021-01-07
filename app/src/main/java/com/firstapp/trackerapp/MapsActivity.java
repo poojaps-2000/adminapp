@@ -166,6 +166,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -206,6 +207,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -214,24 +217,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Intent intent = getIntent();
+
         //get busId from login screen
         final String busName = intent.getStringExtra(HomeActivity.busId);
-
+        //get checkbox value
         final CheckBox cBox = (CheckBox) findViewById(seats);
-//        final Boolean check_seats = cBox.isChecked();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         //if app has location access permission then
-
         if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
                 @Override
@@ -246,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     ID = busName.substring(5);
                     ID = ID.replaceAll("s", "$0 ");
 
-                    //pass coordinates to database
+                    //pass realtime coordinates to database
                     FirebaseDatabase.getInstance().getReference(ID.toUpperCase()).setValue(helper);
                     //get checkbox value
                     final CheckBox cBox = (CheckBox) findViewById(seats);
@@ -254,11 +249,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     HashMap<String, Object> result = new HashMap<>();
                     result.put("seats",cBox.isChecked());
                     FirebaseDatabase.getInstance().getReference(ID.toUpperCase()).updateChildren(result);
-
-//                    DatabaseReference ref=FirebaseDatabase.getInstance().getReference(ID.toUpperCase());
-//                    Map<String, Object> updates = new HashMap<String,Object>();
-//                    updates.put("seats", cBox.isChecked());
-//                    ref.updateChildren(updates);
 
                     //INSIDE THE MAP
                     //get  coordinates
